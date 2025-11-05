@@ -1,0 +1,32 @@
+{
+  "name": "Test Theme",
+  "author": "Test",
+  "themes": [
+    {
+      "name": "Test Theme",
+      "appearance": "dark",
+      "style": {
+        "background": "#1e1e1e",
+        "foreground": "#d4d4d4",
+        "text": "#d4d4d4",
+        "syntax": {
+          "function": {
+            "color": "#ff0000",
+            "font_style": "normal",
+            "font_weight": 400
+          },
+          "keyword": {
+            "color": "#00ff00",
+            "font_style": "normal",
+            "font_weight": 400
+          },
+          "string": {
+            "color": "#0000ff",
+            "font_style": "normal",
+            "font_weight": 400
+          }
+        }
+      }
+    }
+  ]
+}
