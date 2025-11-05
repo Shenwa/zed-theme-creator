@@ -2,6 +2,8 @@
 
 A powerful web-based visual theme editor for the [Zed code editor](https://zed.dev/). Create, customize, and export beautiful color themes with a real-time live preview.
 
+**Try it now:** https://shenwa.github.io/zed-theme-creator/
+
 ![Zed Theme Creator](https://img.shields.io/badge/React-19.1.1-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)
 ![Vite](https://img.shields.io/badge/Vite-7.1-646CFF?logo=vite)
