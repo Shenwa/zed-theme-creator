@@ -1,3 +1,4 @@
+import { Eye, FileJson } from "lucide-react";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { codeExamples } from "./code-examples";
 import LivePreview from "./components/theme/LivePreview";
@@ -9,13 +10,15 @@ import {
   PopoverTrigger,
 } from "./components/ui/popover";
 import { ScrollArea } from "./components/ui/scroll-area";
-import { Eye, FileJson } from "lucide-react";
 import { type Theme } from "./types";
-import { generateZedThemeJSON, generateThemeFilename } from "./utils/themeGenerator";
 import { downloadFile } from "./utils/fileDownload";
-import { parseZedThemeJSON, readFileAsText } from "./utils/themeParser";
-import { initializeShiki } from "./utils/shikiHighlighter";
 import { generateMagicTheme } from "./utils/magicThemeGenerator";
+import { initializeShiki } from "./utils/shikiHighlighter";
+import {
+  generateThemeFilename,
+  generateZedThemeJSON,
+} from "./utils/themeGenerator";
+import { parseZedThemeJSON, readFileAsText } from "./utils/themeParser";
 
 const ThemeCreator: React.FC = () => {
   // Initialize Shiki on component mount
@@ -31,7 +34,6 @@ const ThemeCreator: React.FC = () => {
     language: "typescript", // Default language
     ui: {
       background: "#1e1e1e",
-      foreground: "#abb2bf",
       text: "#abb2bf",
       textMuted: "#5c6370",
       textAccent: "#61afef",
@@ -60,7 +62,11 @@ const ThemeCreator: React.FC = () => {
       number: { color: "#d19a66", fontStyle: "normal", fontWeight: "normal" },
       operator: { color: "#56b6c2", fontStyle: "normal", fontWeight: "normal" },
       property: { color: "#e06c75", fontStyle: "normal", fontWeight: "normal" },
-      punctuation: { color: "#abb2bf", fontStyle: "normal", fontWeight: "normal" },
+      punctuation: {
+        color: "#abb2bf",
+        fontStyle: "normal",
+        fontWeight: "normal",
+      },
       string: { color: "#98c379", fontStyle: "normal", fontWeight: "normal" },
       tag: { color: "#e06c75", fontStyle: "normal", fontWeight: "normal" },
       type: { color: "#e5c07b", fontStyle: "normal", fontWeight: "normal" },
@@ -154,16 +160,19 @@ const ThemeCreator: React.FC = () => {
     }));
   }, []);
 
-  const handleMagicGenerate = useCallback((colors: {
-    background: string;
-    primary: string;
-    secondary: string;
-    accent: string;
-  }) => {
-    const magicTheme = generateMagicTheme(theme, colors);
-    setTheme(magicTheme);
-    setThemeVersion(v => v + 1); // Force re-render
-  }, [theme]);
+  const handleMagicGenerate = useCallback(
+    (colors: {
+      background: string;
+      primary: string;
+      secondary: string;
+      accent: string;
+    }) => {
+      const magicTheme = generateMagicTheme(theme, colors);
+      setTheme(magicTheme);
+      setThemeVersion((v) => v + 1); // Force re-render
+    },
+    [theme],
+  );
 
   const generateZedTheme = useMemo(() => {
     return generateZedThemeJSON(theme);
@@ -178,28 +187,33 @@ const ThemeCreator: React.FC = () => {
     downloadFile(generateZedTheme, filename);
   }, [generateZedTheme, theme.name]);
 
-  const handleUploadJson = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
+  const handleUploadJson = useCallback(
+    async (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      if (!file) return;
 
-    try {
-      const content = await readFileAsText(file);
-      const parsedTheme = parseZedThemeJSON(content);
+      try {
+        const content = await readFileAsText(file);
+        const parsedTheme = parseZedThemeJSON(content);
 
-      if (parsedTheme) {
-        setTheme(parsedTheme);
-        setThemeVersion(v => v + 1); // Force re-render
-      } else {
-        alert("Failed to parse theme file. Please check if it's a valid Zed theme JSON.");
+        if (parsedTheme) {
+          setTheme(parsedTheme);
+          setThemeVersion((v) => v + 1); // Force re-render
+        } else {
+          alert(
+            "Failed to parse theme file. Please check if it's a valid Zed theme JSON.",
+          );
+        }
+      } catch (error) {
+        console.error("Error reading file:", error);
+        alert("Error reading file. Please try again.");
       }
-    } catch (error) {
-      console.error("Error reading file:", error);
-      alert("Error reading file. Please try again.");
-    }
 
-    // Reset the input so the same file can be uploaded again
-    event.target.value = "";
-  }, []);
+      // Reset the input so the same file can be uploaded again
+      event.target.value = "";
+    },
+    [],
+  );
 
   return (
     <div className="flex flex-col lg:flex-row w-full min-h-screen">
@@ -215,33 +229,17 @@ const ThemeCreator: React.FC = () => {
         onMagicGenerate={handleMagicGenerate}
         availableLanguages={Object.keys(codeExamples)}
       />
-      <div
-        className="flex-1 p-3 sm:p-4 flex flex-col min-w-0"
-        style={{
-          backgroundColor: theme.ui.background,
-          color: theme.ui.foreground,
-        }}
-      >
+      <div className="flex-1 p-3 sm:p-4 flex flex-col min-w-0 border-border border-t md:border-t-0 md:border-l">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
           <div className="flex items-center gap-2">
-            <Eye className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: theme.ui.foreground }} />
-            <h2
-              className="text-xl sm:text-2xl font-bold"
-              style={{ color: theme.ui.foreground }}
-            >
-              Live Preview
-            </h2>
+            <Eye className="w-5 h-5 sm:w-6 sm:h-6" />
+            <h2 className="text-xl sm:text-2xl font-bold">Live Preview</h2>
           </div>
           <Popover>
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
                 className="flex items-center gap-2 text-sm"
-                style={{
-                  backgroundColor: theme.ui.background,
-                  color: theme.ui.foreground,
-                  borderColor: theme.ui.border,
-                }}
               >
                 <FileJson className="w-4 h-4" />
                 View JSON

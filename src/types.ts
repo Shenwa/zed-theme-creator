@@ -5,7 +5,6 @@ export interface Theme {
   language: string;
   ui: {
     background: string;
-    foreground: string;
     text: string;
     textMuted: string;
     textAccent: string;

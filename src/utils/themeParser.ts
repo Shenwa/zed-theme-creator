@@ -28,8 +28,7 @@ export const parseZedThemeJSON = (jsonString: string): Theme | null => {
     // Extract UI colors
     const ui = {
       background: style.background || "#282c34",
-      foreground: style.foreground || "#abb2bf",
-      text: style.text || "#abb2bf",
+      text: style.text || style.foreground || "#abb2bf",
       textMuted: style["text.muted"] || "#5c6370",
       textAccent: style["text.accent"] || "#61afef",
       border: style.border || "#3e4451",

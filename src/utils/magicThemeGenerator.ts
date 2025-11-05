@@ -102,7 +102,6 @@ export const generateMagicTheme = (
   // Generate UI colors
   const ui = {
     background: background,
-    foreground: isLight ? darken(background, 80) : lighten(background, 80),
     text: isLight ? darken(background, 80) : lighten(background, 80),
     textMuted: isLight ? darken(background, 40) : lighten(background, 40),
     textAccent: primary,

@@ -45,7 +45,7 @@ export const generateZedThemeJSON = (theme: Theme): string => {
         style: {
           // Main UI background and foreground
           background: theme.ui.background,
-          foreground: theme.ui.foreground,
+          foreground: theme.ui.text,
 
           // Text colors
           text: theme.ui.text,
