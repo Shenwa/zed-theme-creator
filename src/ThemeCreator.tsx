@@ -1,4 +1,4 @@
-import { Eye, FileJson } from "lucide-react";
+import { Download, Eye, FileJson, Upload } from "lucide-react";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { codeExamples } from "./code-examples";
 import LivePreview from "./components/theme/LivePreview";
@@ -223,34 +223,56 @@ const ThemeCreator: React.FC = () => {
         onFontStyleChange={handleFontStyleChange}
         onFontWeightChange={handleFontWeightChange}
         onNameChange={handleNameChange}
-        onDownloadJson={handleDownloadJson}
-        onUploadJson={handleUploadJson}
         onLanguageChange={handleLanguageChange}
         onMagicGenerate={handleMagicGenerate}
         availableLanguages={Object.keys(codeExamples)}
       />
-      <div className="flex-1 p-3 sm:p-4 flex flex-col min-w-0 border-border border-t md:border-t-0 md:border-l">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
+      <div className="flex-1 p-3 sm:p-4 flex flex-col min-w-0 border-border border-t md:border-t-0 md:border-l relative">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 mt-3 gap-2 px-4">
           <div className="flex items-center gap-2">
-            <Eye className="w-5 h-5 sm:w-6 sm:h-6" />
+            <div className="bg-card p-2 rounded-full">
+              <Eye className="w-5 h-5 sm:w-6 sm:h-6" />
+            </div>
             <h2 className="text-xl sm:text-2xl font-bold">Live Preview</h2>
           </div>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className="flex items-center gap-2 text-sm"
-              >
-                <FileJson className="w-4 h-4" />
-                View JSON
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-[90vw] sm:w-[500px] h-[300px] sm:h-[400px]">
-              <ScrollArea className="h-full w-full rounded-md border p-2 sm:p-4">
-                <pre className="text-xs sm:text-sm">{generateZedTheme}</pre>
-              </ScrollArea>
-            </PopoverContent>
-          </Popover>
+          <div className="flex gap-2">
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="outline" className="rounded-full h-10 w-10 p-0 mr-2">
+                  <FileJson className="h-4 w-4" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-[90vw] sm:w-[500px] h-[300px] sm:h-[400px]">
+                <ScrollArea className="h-full w-full rounded-md border p-2 sm:p-4">
+                  <pre className="text-xs sm:text-sm">{generateZedTheme}</pre>
+                </ScrollArea>
+              </PopoverContent>
+            </Popover>
+            <Button
+              onClick={handleDownloadJson}
+              className="flex items-center gap-2 text-sm"
+            >
+              <Download className="w-4 h-4" />
+              <span className="hidden sm:inline">Download Theme</span>
+              <span className="sm:hidden">Download</span>
+            </Button>
+            <Button
+              variant="outline"
+              className="flex items-center gap-2 text-sm"
+              onClick={() => document.getElementById("upload-theme")?.click()}
+            >
+              <Upload className="w-4 h-4" />
+              <span className="hidden sm:inline">Upload Theme</span>
+              <span className="sm:hidden">Upload</span>
+            </Button>
+            <input
+              id="upload-theme"
+              type="file"
+              accept=".json"
+              onChange={handleUploadJson}
+              className="hidden"
+            />
+          </div>
         </div>
         <ScrollArea className="flex-1 rounded-md p-2 sm:p-4">
           <LivePreview
